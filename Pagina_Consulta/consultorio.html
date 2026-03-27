@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultorio Médico - ERP Clínica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans pb-10">
+
+    <!-- 1. ENVOLVEMOS TU APP ACTUAL PARA OCULTARLA AL IMPRIMIR -->
+    <div id="interfaz-sistema" class="print:hidden">
+
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="bg-blue-800 text-white p-4 shadow-md flex justify-between items-center">
+        <div>
+            <h1 class="text-xl font-bold"><i class="fas fa-hospital-user mr-2"></i> ERP Clínica - Módulo Médico</h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="doctor-name" class="font-semibold">Dr. Pérez (Medicina General)</span>
+            <button class="bg-red-500 hover:bg-red-600 px-3 py-1 rounded text-sm">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <div class="container mx-auto p-4 max-w-6xl mt-4">
+
+        <!-- ENCABEZADO: DATOS QUE VIENEN DEL GATEWAY (PERSONA 1) -->
+        <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-800 mb-6 flex justify-between items-center">
+            <div>
+                <h2 class="text-2xl font-bold text-gray-800" id="pac-nombre">Juan Pérez Gómez</h2>
+                <p class="text-gray-500 text-sm">Paciente ID: <span id="pac-id" class="font-bold">1024</span> | Fecha de Nacimiento: <span id="pac-fecha-nac">1990-05-15</span></p>
+            </div>
+            <div class="text-right">
+                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">Cita #1</span>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: DATOS CLÍNICOS Y TRIAGE (LO LLENA EL DOCTOR) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            
+            <!-- Tarjeta Perfil del Paciente -->
+            <div class="bg-white p-5 rounded-lg shadow border-t-4 border-blue-500">
+                <h2 class="text-lg font-bold text-gray-700 border-b pb-2 mb-3"><i class="fas fa-notes-medical text-blue-500"></i> Historial Médico</h2>
+                
+                <label class="block text-xs font-bold text-gray-600 mb-1">Tipo de Sangre</label>
+                <input type="text" id="input-sangre" class="w-full border p-2 rounded text-sm mb-3" placeholder="Ej: O+, A- o 'No lo sabe'">
+
+                <label class="block text-xs font-bold text-gray-600 mb-1">Alergias</label>
+                <textarea id="input-alergias" rows="2" class="w-full border p-2 rounded text-sm mb-3" placeholder="Ej: Penicilina, Nuez..."></textarea>
+
+                <label class="block text-xs font-bold text-gray-600 mb-1">Enfermedades Crónicas</label>
+                <textarea id="input-cronicas" rows="2" class="w-full border p-2 rounded text-sm" placeholder="Ej: Diabetes, Asma..."></textarea>
+            </div>
+
+            <!-- Tarjeta Signos Vitales -->
+            <div class="bg-white p-5 rounded-lg shadow border-t-4 border-green-500">
+                <h2 class="text-lg font-bold text-gray-700 border-b pb-2 mb-3"><i class="fas fa-heartbeat text-green-500"></i> Signos Vitales (Triage)</h2>
+                
+                <label class="block text-xs font-bold text-gray-600 mb-1">Motivo de la Consulta</label>
+                <input type="text" id="input-motivo" class="w-full border p-2 rounded text-sm mb-3" placeholder="¿Por qué viene el paciente hoy?">
+
+                <div class="grid grid-cols-3 gap-2 text-sm">
+                    <div>
+                        <label class="text-xs text-gray-500 block">Peso (kg)</label>
+                        <input type="number" id="input-peso" class="w-full border p-1 rounded">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500 block">Estatura (cm)</label>
+                        <input type="number" id="input-estatura" class="w-full border p-1 rounded">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500 block">Temp. (°C)</label>
+                        <input type="number" id="input-temp" class="w-full border p-1 rounded" step="0.1">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500 block">Presión Art.</label>
+                        <input type="text" id="input-presion" class="w-full border p-1 rounded" placeholder="120/80">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500 block">Pulso (lpm)</label>
+                        <input type="number" id="input-pulso" class="w-full border p-1 rounded">
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-500 block">Oxígeno (%)</label>
+                        <input type="number" id="input-oxigeno" class="w-full border p-1 rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: CONSULTA Y SERVICIOS -->
+        <div class="bg-white p-5 rounded-lg shadow mb-6 border-l-4 border-indigo-500">
+            <h2 class="text-lg font-bold text-gray-700 mb-4"><i class="fas fa-stethoscope text-indigo-500"></i> Diagnóstico y Servicios a Cobrar</h2>
+            
+            <label class="block text-gray-700 font-bold mb-2">Diagnóstico Médico:</label>
+            <textarea id="input-diagnostico" rows="2" class="w-full border-gray-300 border p-2 rounded focus:ring-2 focus:ring-indigo-300" placeholder="Escriba el diagnóstico final aquí..."></textarea>
+            
+            <label class="block text-gray-700 font-bold mt-4 mb-2">Servicios Realizados (Seleccione para cobrar):</label>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm" id="contenedor-servicios">
+                <!-- Se llenará con JavaScript desde la Base de Datos -->
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: RECETA MÉDICA DINÁMICA -->
+        <div class="bg-white p-5 rounded-lg shadow mb-6 border-l-4 border-yellow-500">
+            <h2 class="text-lg font-bold text-gray-700 mb-4"><i class="fas fa-pills text-yellow-500"></i> Receta Médica</h2>
+            
+            <div class="bg-yellow-50 p-4 rounded border border-yellow-200 grid grid-cols-1 md:grid-cols-5 gap-3 items-end mb-4">
+                <div class="md:col-span-2">
+                    <label class="text-xs font-bold text-gray-600">Medicamento</label>
+                    <input type="text" id="med-nombre" placeholder="Ej: Paracetamol" class="w-full border p-2 rounded text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">Gramaje/Presentación</label>
+                    <input type="text" id="med-gramaje" placeholder="Ej: 500mg, Tableta" class="w-full border p-2 rounded text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">Dosis</label>
+                    <input type="text" id="med-dosis" placeholder="Ej: 1 tableta" class="w-full border p-2 rounded text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">Frecuencia</label>
+                    <input type="text" id="med-frecuencia" placeholder="Ej: Cada 8 hrs" class="w-full border p-2 rounded text-sm">
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-gray-600">Duración</label>
+                    <input type="text" id="med-duracion" placeholder="Ej: 5 días" class="w-full border p-2 rounded text-sm">
+                </div>
+                <div class="md:col-span-4 text-right">
+                    <button onclick="agregarMedicamento()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full md:w-auto font-bold shadow-sm">
+                        <i class="fas fa-plus"></i> Agregar
+                    </button>
+                </div>
+            </div>
+
+            <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                    <tr class="bg-gray-200 text-gray-700">
+                        <th class="p-2 border">Medicamento / Presentación</th>
+                        <th class="p-2 border">Dosis</th>
+                        <th class="p-2 border">Frecuencia</th>
+                        <th class="p-2 border">Duración</th>
+                        <th class="p-2 border text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-medicamentos"></tbody>
+            </table>
+        </div>
+
+        <!-- BOTONES FINALES -->
+        <div class="flex justify-end gap-4 mb-10 print:hidden">
+            <!-- BOTÓN NUEVO: Solo imprime, no guarda en base de datos -->
+            <button onclick="imprimirBorrador()" class="bg-gray-500 text-white text-lg px-6 py-3 rounded-lg hover:bg-gray-600 font-bold shadow-lg transition-all">
+                <i class="fas fa-print"></i> Imprimir / Vista Previa
+            </button>
+
+            <!-- BOTÓN ORIGINAL: Guarda en base de datos y luego imprime el oficial -->
+            <button onclick="finalizarConsulta()" class="bg-green-600 text-white text-lg px-8 py-3 rounded-lg hover:bg-green-700 font-bold shadow-lg transition-all">
+                <i class="fas fa-check-circle"></i> Guardar Consulta y Generar Folio
+            </button>
+        </div>
+
+    </div>
+
+    </div> <!-- FIN INTERFAZ-SISTEMA -->
+
+    <!-- 2. LA HOJA DE LA RECETA (Solo visible al imprimir) -->
+    <div id="hoja-receta" class="hidden print:block bg-white p-10 mx-auto" style="width: 21.5cm; min-height: 28cm;">
+        
+        <!-- Encabezado de la Receta -->
+        <div class="border-b-4 border-blue-800 pb-4 mb-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold text-blue-800"><i class="fas fa-hospital-alt"></i> Clínica Médica ERP</h1>
+                <p class="text-gray-600 font-bold mt-1" id="receta-doc-nombre">Dr. Pérez</p>
+                <p class="text-gray-500 text-sm">Medicina General - Cédula: CED-123456</p>
+            </div>
+            <div class="text-right">
+                <p class="text-sm font-bold text-red-600 mb-1">FOLIO: <span id="receta-folio">REC-0000</span></p>
+                <p class="text-sm text-gray-600">Fecha: <span id="receta-fecha">...</span></p>
+            </div>
+        </div>
+
+        <!-- Datos del Paciente (Triage corto) -->
+        <div class="bg-gray-100 p-3 rounded mb-4 text-sm flex justify-between">
+            <p><span class="font-bold">Paciente:</span> <span id="receta-pac-nombre">Juan Pérez Gómez</span></p>
+            <p><span class="font-bold">Peso:</span> <span id="receta-peso">--</span> kg</p>
+            <p><span class="font-bold">Temp:</span> <span id="receta-temp">--</span> °C</p>
+            <p><span class="font-bold">Presión:</span> <span id="receta-presion">--</span></p>
+        </div>
+
+        <div class="mb-4 text-sm border-l-4 border-blue-800 pl-3">
+            <p><span class="font-bold text-gray-800">Diagnóstico:</span> <span id="receta-diagnostico" class="italic">...</span></p>
+        </div>
+
+        <!-- Lista de Medicamentos -->
+        <div class="min-h-[400px]">
+            <h2 class="text-xl font-bold text-gray-800 mb-4 border-b-2 border-gray-300"><i class="fas fa-pills"></i> Tratamiento Médico</h2>
+            
+            <!-- Aquí JavaScript inyectará las medicinas -->
+            <ul id="receta-lista-medicinas" class="space-y-4">
+            </ul>
+        </div>
+
+        <!-- Pie de página (Firma) -->
+        <div class="mt-16 pt-8 text-center">
+            <div class="w-64 border-t-2 border-gray-800 mx-auto mt-10 pt-2">
+                <p class="font-bold text-gray-800" id="receta-firma-nombre">Dr. Pérez</p>
+                <p class="text-sm text-gray-500">Firma del Médico</p>
+            </div>
+            <p class="text-xs text-gray-400 mt-8">Esta receta es confidencial. Válida solo por 30 días a partir de su expedición.</p>
+        </div>
+
+    </div>
+
+    <script src="../js_Paginas/Consultorio.js"></script>
+    <script src="../js_Paginas/Login.js"></script>
+    <script src="../js_api/api_consultorio.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Médico - ERP Clínica</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome para los íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-blue-50 h-screen flex items-center justify-center font-sans">
+
+    <!-- Contenedor Principal del Login -->
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md border-t-8 border-blue-700">
+        
+        <!-- Logo / Encabezado -->
+        <div class="text-center mb-8">
+            <div class="bg-blue-100 text-blue-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-inner">
+                <i class="fas fa-user-md text-4xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Portal Médico</h1>
+            <p class="text-sm text-gray-500 mt-1">Acceso exclusivo para personal de salud</p>
+        </div>
+
+        <!-- Mensaje de Error (Oculto por defecto) -->
+        <div id="mensaje-error" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-3 mb-4 text-sm rounded">
+            <i class="fas fa-exclamation-circle mr-2"></i> <span id="texto-error">Credenciales incorrectas.</span>
+        </div>
+
+        <!-- Formulario -->
+        <form id="form-login" onsubmit="iniciarSesion(event)">
+            
+            <!-- Input Correo -->
+            <div class="mb-5">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="correo">
+                    Correo Electrónico Institucional
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-envelope text-gray-400"></i>
+                    </div>
+                    <input type="email" id="correo" required
+                        class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="doctor@clinica.com">
+                </div>
+            </div>
+
+            <!-- Input Contraseña -->
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+                    Contraseña
+                </label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fas fa-lock text-gray-400"></i>
+                    </div>
+                    <input type="password" id="password" required
+                        class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        placeholder="••••••••">
+                </div>
+            </div>
+
+            <!-- Botón de Submit -->
+            <button type="submit" id="btn-login" 
+                class="w-full bg-blue-700 hover:bg-blue-800 text-white font-bold py-3 px-4 rounded-lg shadow-lg hover:shadow-xl transition-all flex justify-center items-center">
+                <span>Ingresar al Consultorio</span>
+                <i class="fas fa-sign-in-alt ml-2"></i>
+            </button>
+        </form>
+
+        <!-- Pie de página -->
+        <div class="text-center mt-6 text-xs text-gray-400">
+            <p><i class="fas fa-shield-alt mr-1"></i> Protegido por ERP Central (Gateway)</p>
+            <p class="mt-1">Si olvidó su contraseña, contacte a Recursos Humanos.</p>
+        </div>
+
+    </div>
+
+    <!-- LÓGICA DE JAVASCRIPT -->
+    <script src="../js_Paginas/Login.js"></script>
+</body>
+</html>
